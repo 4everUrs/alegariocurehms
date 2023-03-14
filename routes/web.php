@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AutoLoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfileEditController;
 use App\Http\Livewire\Ap\AccountPayables;
@@ -29,31 +30,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/login');
-})->name('home');
+Route::get('/', [AutoLoginController::class, 'login'])->name('home');
 
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('bm/requests', RequestList::class)->name('bmrequest');
-    Route::get('bm/allocation', Allocation::class)->name('bmallocation');
-    Route::get('bm/history', History::class)->name('bmhistory');
-    Route::get('disburse/request', DisburseRequests::class)->name('disburserequest');
-    Route::get('general/charts-of-accounts', ChartOfAccounts::class)->name('generalchart');
-    Route::get('general/journal-entry', JournalEntry::class)->name('journal');
-    Route::get('general/trial-balance', TrialBalance::class)->name('trialbalance');
-    Route::get('collections', CollectionView::class)->name('collections');
-    Route::get('recievable', AccountsRecievable::class)->name('recievables');
-    Route::get('payables', AccountPayables::class)->name('payables');
-    Route::get('accounts', Profile::class)->name('account');
-});
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::get('bm/requests', RequestList::class)->name('bmrequest');
+Route::get('bm/allocation', Allocation::class)->name('bmallocation');
+Route::get('bm/history', History::class)->name('bmhistory');
+Route::get('disburse/request', DisburseRequests::class)->name('disburserequest');
+Route::get('general/charts-of-accounts', ChartOfAccounts::class)->name('generalchart');
+Route::get('general/journal-entry', JournalEntry::class)->name('journal');
+Route::get('general/trial-balance', TrialBalance::class)->name('trialbalance');
+Route::get('collections', CollectionView::class)->name('collections');
+Route::get('recievable', AccountsRecievable::class)->name('recievables');
+Route::get('payables', AccountPayables::class)->name('payables');
+Route::get('accounts', Profile::class)->name('account');
 
 Route::get('request-form', BudgetRequestForm::class)->name('request-form');
 Route::get('collection-form', CollectionForm::class)->name('collection-form');
